@@ -14,7 +14,7 @@ T MessageQueue<T>::receive()
 
     // get last message, remove it from queue and return
     T msg = std::move(_queue.back());
-    _queue.pop_back();
+    _queue.clear();
     return msg;
 }
 
