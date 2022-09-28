@@ -46,7 +46,7 @@ void TrafficLight::simulate()
 }
 
 // virtual function which is executed in a thread
-void TrafficLight::cycleThroughPhases()
+[[noreturn]] void TrafficLight::cycleThroughPhases()
 {
     // https://www.techiedelight.com/generate-random-numbers-in-the-specified-range-in-cpp/
     std::random_device rd;
