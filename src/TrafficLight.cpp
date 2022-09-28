@@ -67,12 +67,11 @@ void TrafficLight::simulate()
     const double loopDelay = dist(gen);
     https://cplusplus.com/reference/chrono/duration/
     auto startTime = std::chrono::high_resolution_clock::now();
-    auto waitTime = loopDelay;
 
     while (true)
     {
-        // wait between subsequent checks
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // wait between subsequent checks (10ms is sufficient compared to ~ 4 - 6 seconds)
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         // skip exec if loopDelay is not met
         if (std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - startTime).count() < loopDelay)
