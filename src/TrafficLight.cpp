@@ -63,7 +63,7 @@ void TrafficLight::simulate()
     // https://www.techiedelight.com/generate-random-numbers-in-the-specified-range-in-cpp/
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(4000.0, 6000.0);
+    std::uniform_int_distribution<> dist(4.0, 6.0);
     const double loopDelay = dist(gen);
     https://cplusplus.com/reference/chrono/duration/
     auto startTime = std::chrono::high_resolution_clock::now();
