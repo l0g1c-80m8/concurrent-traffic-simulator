@@ -48,8 +48,37 @@ void TrafficLight::simulate()
 // virtual function which is executed in a thread
 void TrafficLight::cycleThroughPhases()
 {
-    // FP.2a : Implement the function with an infinite loop that measures the time between two loop cycles
-    // and toggles the current phase of the traffic light between red and green and sends an update method
-    // to the message queue using move semantics. The cycle duration should be a random value between 4 and 6 seconds.
-    // Also, the while-loop should use std::this_thread::sleep_for to wait 1ms between two cycles.
+    // https://www.techiedelight.com/generate-random-numbers-in-the-specified-range-in-cpp/
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(4000.0, 6000.0);
+    const double loopDelay = dist(gen);
+    https://cplusplus.com/reference/chrono/duration/
+    auto startTime = std::chrono::high_resolution_clock::now();
+    auto waitTime = loopDelay;
+
+    while (true)
+    {
+        // wait between subsequent checks
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        // skip exec if loopDelay is not met
+        if (std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - startTime).count() < loopDelay)
+            continue;
+
+        // reset startTime to current time
+        startTime = std::chrono::high_resolution_clock::now();
+
+        // switch traffic light phase
+        switch(_currentPhase) {
+            case TrafficLightPhase::red:
+                _currentPhase = TrafficLightPhase::green;
+                break;
+            case TrafficLightPhase::green:
+                _currentPhase = TrafficLightPhase::red;
+                break;
+        }
+
+        // TODO: send update to message queue using move semantics
+    }
 }
