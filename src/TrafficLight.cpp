@@ -15,8 +15,12 @@ T MessageQueue<T>::receive()
 template <typename T>
 void MessageQueue<T>::send(T &&msg)
 {
-    // FP.4a : The method send should use the mechanisms std::lock_guard<std::mutex>
-    // as well as _condition.notify_one() to add a new message to the queue and afterwards send a notification.
+    // acquire lock in RAII style
+    std::lock_guard<std::mutex> lock(_mtx);
+    // add a new message to the queue
+    _queue.push_back(std::move(msg));
+    // notify a blocked thread on _mtx to exec
+    _cond.notify_one();
 }
 
 /* Implementation of class "TrafficLight" */
@@ -78,6 +82,7 @@ void TrafficLight::simulate()
                 break;
         }
 
-        // TODO: send update to message queue using move semantics
+        // send update to message queue using move semantics
+        _msgQueue.send(std::move(_currentPhase));
     }
 }
