@@ -26,7 +26,7 @@ private:
     
 };
 
-class TrafficLight
+class TrafficLight : public TrafficObject
 {
 public:
     // constructor / destructor
@@ -42,7 +42,7 @@ public:
 
 private:
     // typical behaviour methods
-    void cycleThroughPhases();
+    [[noreturn]] void cycleThroughPhases();
 
     TrafficLightPhase _currentPhase;
 
